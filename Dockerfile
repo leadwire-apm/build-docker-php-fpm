@@ -37,7 +37,7 @@ RUN set -ex; \
 		pdo_pgsql \
 		pdo_sqlite \
 		zip \
-                php7-pear-net_smtp \
+                php-net-smtp \
 	; \
 	pecl install imagick redis; \
 	docker-php-ext-enable imagick opcache redis; \
