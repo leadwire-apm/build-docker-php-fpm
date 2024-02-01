@@ -106,8 +106,8 @@ COPY php.ini /usr/local/etc/php/conf.d/roundcube-defaults.ini
 ########## CUSTOM #########
 
 #MODULE MEMCACHE != MEMCACHED
-#COPY --from=SOURCE /usr/src/memcache-4.0.5.1/modules/memcache.so /usr/lib64/php/modules/
-#RUN echo 'extension=memcache.so' >>  /etc/php.d/z-memcached.ini
+COPY --from=SOURCE /usr/src/memcache-4.0.5.1/modules/memcache.so /usr/lib64/php/modules/
+RUN echo 'extension=memcache.so' >>  /etc/php.d/z-memcached.ini
 
 # Client MongoDB
 #COPY --from=SOURCE /usr/lib64/php/modules/mongodb.so /usr/lib64/php/modules/mongodb.so
