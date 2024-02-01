@@ -1,3 +1,6 @@
+FROM centos:7.6.1810 AS MEMCACHE_SOURCE
+FROM centos:7.6.1810 as MONGO_SOURCE
+
 FROM php:7.4-fpm-alpine
 LABEL maintainer="Thomas Bruederli <thomas@roundcube.net>"
 
@@ -100,7 +103,6 @@ RUN curl -fL https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait
 COPY php.ini /usr/local/etc/php/conf.d/roundcube-defaults.ini
 
 ########## CUSTOM #########
-FROM centos:7.6.1810 AS MEMCACHE_SOURCE
 
 #MODULE MEMCACHE != MEMCACHED
 COPY --from=MEMCACHE_SOURCE /usr/src/memcache-4.0.5.1/modules/memcache.so /usr/lib64/php/modules/
@@ -109,7 +111,6 @@ RUN echo 'extension=memcache.so' >>  /etc/php.d/z-memcached.ini
 # Client SMTP
 RUN yum install php-pear-Net-SMTP -y 
 
-FROM centos:7.6.1810 as MONGO_SOURCE
 # Client MongoDB
 COPY --from=MONGO_SOURCE /usr/lib64/php/modules/mongodb.so /usr/lib64/php/modules/mongodb.so
 RUN echo 'extension=mongodb.so' >>  /etc/php.d/z-mongodb.ini
