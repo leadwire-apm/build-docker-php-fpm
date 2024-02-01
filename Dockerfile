@@ -1,6 +1,9 @@
 FROM php:7.4-fpm-alpine
 LABEL maintainer="Thomas Bruederli <thomas@roundcube.net>"
 
+FROM centos:7.6.1810 as MONGO_SOURCE
+FROM centos:7.6.1810 AS MEMCACHE_SOURCE
+
 # entrypoint.sh and installto.sh dependencies
 RUN set -ex; \
 	\
