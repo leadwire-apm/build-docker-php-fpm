@@ -24,7 +24,6 @@ RUN set -ex; \
 		openldap-dev \
 		postgresql-dev \
 		sqlite-dev \
-                php-net-smtp \
 	; \
 	\
 	docker-php-ext-configure gd; \
@@ -38,7 +37,6 @@ RUN set -ex; \
 		pdo_pgsql \
 		pdo_sqlite \
 		zip \
-                php-net-smtp \
 	; \
 	pecl install imagick redis; \
 	docker-php-ext-enable imagick opcache redis; \
