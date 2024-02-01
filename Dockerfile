@@ -1,6 +1,3 @@
-export DOCKER_BUILDKIT=0
-export COMPOSE_DOCKER_CLI_BUILD=0
-
 FROM php:7.4-fpm-alpine
 LABEL maintainer="Thomas Bruederli <thomas@roundcube.net>"
 
