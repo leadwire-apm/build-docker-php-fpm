@@ -51,7 +51,7 @@ RUN set -ex; \
 	apk del .build-deps
  
 
-# memcached - tested with php 7.2
+# memcached - tested with php 7.4
 ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
 RUN apk add --no-cache --update libmemcached-libs zlib
 RUN set -xe \
@@ -62,6 +62,13 @@ RUN set -xe \
     && rm -rf /usr/share/php7 \
     && rm -rf /tmp/* \
     && apk del .memcached-deps .phpize-deps
+    
+# mongodb - tested with php 7.4
+RUN apk --update add --virtual build-dependencies build-base openssl-dev autoconf \
+  && pecl install mongodb \
+  && docker-php-ext-enable mongodb \
+  && apk del build-dependencies build-base openssl-dev autoconf \
+  && rm -rf /var/cache/apk/*
 
 # add composer.phar
 ADD https://getcomposer.org/installer /tmp/composer-installer.php
