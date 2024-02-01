@@ -1,6 +1,6 @@
 FROM centos:7.6.1810 AS SOURCE
 # Client SMTP
-RUN yum install php-pear-Net-SMTP -y 
+#RUN yum install php-pear-Net-SMTP -y 
 
 FROM php:7.4-fpm-alpine
 LABEL maintainer="Thomas Bruederli <thomas@roundcube.net>"
