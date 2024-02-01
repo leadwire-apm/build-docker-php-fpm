@@ -99,6 +99,26 @@ RUN curl -fL https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait
 # use custom PHP settings
 COPY php.ini /usr/local/etc/php/conf.d/roundcube-defaults.ini
 
+########## CUSTOM #########
+#MODULE MEMCACHE != MEMCACHED
+COPY --from=MEMCACHE_SOURCE /usr/src/memcache-4.0.5.1/modules/memcache.so /usr/lib64/php/modules/
+RUN echo 'extension=memcache.so' >>  /etc/php.d/z-memcached.ini
+
+# Client SMTP
+RUN yum install php-pear-Net-SMTP -y 
+
+# Client MongoDB
+COPY --from=MONGO_SOURCE /usr/lib64/php/modules/mongodb.so /usr/lib64/php/modules/mongodb.so
+RUN echo 'extension=mongodb.so' >>  /etc/php.d/z-mongodb.ini
+
+# PHP SERVER CONF
+COPY conf/dgfip/php-ssl.ini /etc/php.d/openssl.ini
+COPY conf/dgfip/php-custom.ini /etc/php.d/custom.ini
+COPY conf/dgfip/www-custom.conf /etc/php-fpm.d/www.conf
+COPY conf/dgfip/php-opcache.ini /etc/php.d/opcache.ini
+
+###########################
+
 COPY docker-entrypoint.sh /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
