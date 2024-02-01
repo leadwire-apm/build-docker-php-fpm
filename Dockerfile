@@ -48,20 +48,18 @@ RUN set -ex; \
 	apk add --virtual .roundcubemail-phpext-rundeps imagemagick $runDeps; \
 	apk del .build-deps
  
-# Install Memcached
-RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" && \
-mkdir -p memcached && \
-tar -C memcached -zxvf /tmp/memcached.tar.gz --strip 1 && \
-( \
-    cd memcached && \
-    phpize && \
-    ./configure && \
-    make -j$(nproc) && \
-    make install \
-) && \
-rm -r memcached && \
-rm /tmp/memcached.tar.gz && \
-docker-php-ext-enable memcached
+
+# memcached - tested with php 7.2
+ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
+RUN apk add --no-cache --update libmemcached-libs zlib
+RUN set -xe \
+    && apk add --no-cache --update --virtual .phpize-deps $PHPIZE_DEPS \
+    && apk add --no-cache --update --virtual .memcached-deps $MEMCACHED_DEPS \
+    && pecl install memcached \
+    && echo "extension=memcached.so" > /usr/local/etc/php/conf.d/20_memcached.ini \
+    && rm -rf /usr/share/php7 \
+    && rm -rf /tmp/* \
+    && apk del .memcached-deps .phpize-deps
 
 # add composer.phar
 ADD https://getcomposer.org/installer /tmp/composer-installer.php
