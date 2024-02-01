@@ -1,3 +1,4 @@
+FROM php:7.4-fpm
 LABEL maintainer="Thomas Bruederli <thomas@roundcube.net>"
 
 # entrypoint.sh and installto.sh dependencies
