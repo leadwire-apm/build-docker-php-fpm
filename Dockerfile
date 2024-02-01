@@ -24,6 +24,7 @@ RUN set -ex; \
 		openldap-dev \
 		postgresql-dev \
 		sqlite-dev \
+                php-net-smtp \
 	; \
 	\
 	docker-php-ext-configure gd; \
