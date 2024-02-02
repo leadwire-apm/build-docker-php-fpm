@@ -1,3 +1,8 @@
+########## TO DO ############
+# Client SMTP a ajouter
+#RUN yum install php-pear-Net-SMTP -y 
+############################
+
 FROM php:7.4-fpm-alpine
 
 LABEL maintainer="Thomas Bruederli <thomas@roundcube.net>"
