@@ -91,5 +91,5 @@ COPY conf/dgfip/www-custom.conf /etc/php-fpm.d/www.conf
 COPY conf/dgfip/php-opcache.ini /etc/php.d/opcache.ini
 
 ###########################
-RUN useradd -ms /bin/bash newuser
+RUN useradd -ms /bin/bash www
 #CMD ["php-fpm"]
