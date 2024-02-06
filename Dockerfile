@@ -7,6 +7,8 @@ FROM php:7.4-fpm-alpine
 
 LABEL maintainer="Thomas Bruederli <thomas@roundcube.net>"
 
+RUN useradd -d /home/www -s /bin/bash -disabled-password -G www-data www
+
 # entrypoint.sh and installto.sh dependencies
 RUN set -ex; \
 	\
@@ -91,5 +93,5 @@ COPY conf/dgfip/www-custom.conf /etc/php-fpm.d/www.conf
 COPY conf/dgfip/php-opcache.ini /etc/php.d/opcache.ini
 
 ###########################
-RUN useradd www --disabled-password -G www-data
+#RUN useradd www --disabled-password -G www-data
 #CMD ["php-fpm"]
