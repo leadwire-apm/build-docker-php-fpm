@@ -7,7 +7,7 @@ FROM php:7.4-fpm-alpine
 
 LABEL maintainer="Thomas Bruederli <thomas@roundcube.net>"
 
-RUN useradd test
+RUN adduser www
 
 # entrypoint.sh and installto.sh dependencies
 RUN set -ex; \
