@@ -7,7 +7,7 @@ FROM php:7.4-fpm-alpine
 
 LABEL maintainer="Thomas Bruederli <thomas@roundcube.net>"
 
-RUN adduser www --disabled-password -G www-data
+#RUN adduser www --disabled-password -G www-data
 
 # entrypoint.sh and installto.sh dependencies
 RUN set -ex; \
@@ -89,7 +89,7 @@ RUN php /tmp/composer-installer.php --install-dir=/usr/local/bin/; \
 # PHP SERVER CONF
 COPY conf/dgfip/php-ssl.ini /etc/php.d/openssl.ini
 COPY conf/dgfip/php-custom.ini /etc/php.d/custom.ini
-COPY conf/dgfip/www-custom.conf /etc/php-fpm.d/www.conf
+#COPY conf/dgfip/www-custom.conf /etc/php-fpm.d/www.conf
 COPY conf/dgfip/php-opcache.ini /etc/php.d/opcache.ini
 
 ###########################
