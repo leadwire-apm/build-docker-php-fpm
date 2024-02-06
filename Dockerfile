@@ -7,7 +7,7 @@ FROM php:7.4-fpm-alpine
 
 LABEL maintainer="Thomas Bruederli <thomas@roundcube.net>"
 
-RUN adduser www
+RUN adduser www --disabled-password -G www-data
 
 # entrypoint.sh and installto.sh dependencies
 RUN set -ex; \
