@@ -29,6 +29,7 @@ RUN set -ex; \
 		openldap-dev \
 		postgresql-dev \
 		sqlite-dev \
+                ca-certificates \
 	; \
 	\
 	docker-php-ext-configure gd; \
