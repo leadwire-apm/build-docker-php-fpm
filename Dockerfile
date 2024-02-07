@@ -5,7 +5,7 @@
 
 FROM php:7.4-fpm-alpine
 
-LABEL maintainer="Thomas Bruederli <thomas@roundcube.net>"
+LABEL maintainer="Hamed dhib <hamed.dhib@leadwire.io>"
 
 # entrypoint.sh and installto.sh dependencies
 RUN set -ex; \
