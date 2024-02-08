@@ -24,9 +24,6 @@ RUN set -ex; \
 		openldap-dev \
 		postgresql-dev \
 		sqlite-dev \
-                ca-certificates \
-                php-pear \
-		php-net-smtp \
 	; \
 	\
 	docker-php-ext-configure gd; \
@@ -55,23 +52,22 @@ RUN set -ex; \
  
 
 # memcached - tested with php 7.4
-ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
-RUN apk add --no-cache --update libmemcached-libs zlib
-RUN set -xe \
-    && apk add --no-cache --update --virtual .phpize-deps $PHPIZE_DEPS \
-    && apk add --no-cache --update --virtual .memcached-deps $MEMCACHED_DEPS \
-    && pecl install memcached \
-    && echo "extension=memcached.so" > /usr/local/etc/php/conf.d/20_memcached.ini \
-    && rm -rf /usr/share/php7 \
-    && rm -rf /tmp/* \
-    && apk del .memcached-deps .phpize-deps
+
+RUN apk add libmemcached-dev
     
-# mongodb - tested with php 7.4
-RUN apk --update add --virtual build-dependencies build-base openssl-dev autoconf \
-  && pecl install mongodb \
-  && docker-php-ext-enable mongodb \
-  && apk del build-dependencies build-base openssl-dev autoconf \
-  && rm -rf /var/cache/apk/*
+# Install dependencies for MongoDB tools
+RUN apk add --no-cache libc6-compat libstdc++
+
+# Update the package index and install MongoDB tools
+RUN apk update && \
+    apk add --no-cache mongodb-tools
+
+RUN apk update \
+    && apk add --no-cache \
+        php-pear \
+	ca-certificates
+ 
+RUN pear install Net_SMTP
 
 # add composer.phar
 ADD https://getcomposer.org/installer /tmp/composer-installer.php
