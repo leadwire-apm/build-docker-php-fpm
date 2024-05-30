@@ -98,6 +98,12 @@ RUN mkdir -p mongo-php-driver \
    &&  make install \
    && docker-php-ext-enable mongodb
 
+# Install SOAP extension and other dependencies
+RUN apk add --no-cache libxml2-dev && \
+    docker-php-ext-install soap && \
+    docker-php-ext-enable soap
+
+
 RUN apk --no-cache add imap-dev openssl-dev
 RUN docker-php-ext-configure imap --with-imap --with-imap-ssl \
     && docker-php-ext-install imap
