@@ -85,7 +85,8 @@ RUN wget http://pecl.php.net/get/memcache-4.0.5.1.tgz \
     && ./configure \
     && make \
     && make install \
-    && docker-php-ext-enable memcache
+    && docker-php-ext-enable memcache \ 
+    && rm -fr /var/www/html/*
     
 # Install MongoDB PHP client library from Git source 
 RUN  git clone -b v1.8  https://github.com/mongodb/mongo-php-driver.git
@@ -96,17 +97,29 @@ RUN mkdir -p mongo-php-driver \
    &&  ./configure  \
    &&  make all \
    &&  make install \
-   && docker-php-ext-enable mongodb
-
-# Install SOAP extension and other dependencies
-RUN apk add --no-cache libxml2-dev && \
-    docker-php-ext-install soap && \
-    docker-php-ext-enable soap
-
+   && docker-php-ext-enable mongodb \
+   && rm -fr /var/www/html/*
+   
 
 RUN apk --no-cache add imap-dev openssl-dev
 RUN docker-php-ext-configure imap --with-imap --with-imap-ssl \
     && docker-php-ext-install imap
 
+#Install SOAP extension and other dependencies
+RUN apk add --no-cache libxml2-dev && \
+docker-php-ext-install soap && \
+docker-php-ext-enable soap
+
+# Update the package list and install necessary packages for mbstring
+RUN apk update && apk add --no-cache \
+    oniguruma-dev
+
+# Install mbstring extension
+RUN docker-php-ext-install mbstring
+
+# Install gettext
+RUN apk update && apk add --no-cache gettext
+
 # Clean up
 RUN rm -rf /tmp/* /var/cache/apk/*
+RUN rm -fr  /var/www/html/*
